@@ -1,6 +1,6 @@
 # Modifying the provided script to include the new features
 
-
+from Enums.throw import ThrowType
 import tkinter as tk
 
 SCALE = 5
@@ -82,6 +82,9 @@ points = []
 
 # Bind the left mouse click to adding a point
 canvas.bind("<Button-1>", add_point)
+
+print([e for e in ThrowType])
+print([e.name for e in ThrowType])
 
 root.mainloop()
 
