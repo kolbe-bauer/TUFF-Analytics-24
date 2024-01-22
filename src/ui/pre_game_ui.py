@@ -69,15 +69,21 @@ def create_forward_back_buttons(previous_page, next_page):
     bottom_right_frame = tk.Frame(root, bg="white", width=frame_width, height=frame_height)
     bottom_right_frame.place(x=x_pos, y=y_pos)
 
-    # create back button
-    button_back = tk.Button(bottom_right_frame, text="Back\n<=", command=lambda: clear_frames(previous_page),
-                            width=button_width, height=button_height)
-    button_back.pack(side=tk.LEFT)
+    if previous_page == "unknown":
+        john = 1
+    else:
+        # create back button
+        button_back = tk.Button(bottom_right_frame, text="Back\n<=", command=lambda: clear_frames(previous_page),
+                                width=button_width, height=button_height)
+        button_back.pack(side=tk.LEFT)
 
-    # create forward button
-    button_forward = tk.Button(bottom_right_frame, text="Next\n=>", command=lambda: clear_frames(next_page),
-                               width=button_width, height=button_height)
-    button_forward.pack(side=tk.RIGHT)
+    if next_page == "unknown":
+        john = 1
+    else:
+        # create forward button
+        button_forward = tk.Button(bottom_right_frame, text="Next\n=>", command=lambda: clear_frames(next_page),
+                                   width=button_width, height=button_height)
+        button_forward.pack(side=tk.RIGHT)
 
 
 # method to create search boxes that will be used multiple times in the pre game ui
@@ -139,7 +145,8 @@ def create_searchable_listbox(frame, title, options, row, col):
 def load_game():
     # load data from a previous game that was saved
     # create forward and back buttons
-    create_forward_back_buttons("start", "point_roster")
+    # FIGURE OUT WHAT THE NEXT BUTTON SHOULD BE
+    create_forward_back_buttons("start", "unknown")
     # create center frame
     center_frame = create_center_frame()
     # NEED TO MAKE THIS HAVE THE GAMES THAT HAVE BEEN SAVED
@@ -152,7 +159,8 @@ def load_game():
 def new_game():
     # create a new game
     # create forward and back buttons
-    create_forward_back_buttons("start", "point_roster")
+    # FIGURE OUT WHAT THE NEXT BUTTON SHOULD BE
+    create_forward_back_buttons("start", "unknown")
     # create center frame
     center_frame = create_center_frame()
     # NEED TO MAKE THIS HAVE THE TOURNAMENTS AND TEAMS THAT HAVE BEEN SAVED
