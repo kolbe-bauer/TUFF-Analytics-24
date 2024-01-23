@@ -7,21 +7,24 @@ class Tournament (Enum):
     SMI2024 = "Smoky Mountain Invite 2024"
     CEN2024 = "Centex 2024"
 
-class Bracket_Teams (Enum):
+
+class BracketTeams (Enum):
     Jojah = "Jojah"
     PITT = "Pitt"
     NC_State = "NC State"
     Brown = "Brown"
 
-class Pool_Teams (Enum):
+
+class PoolTeams (Enum):
     Tennessee = "Tennessee"
     NC_State = "NC State"
     PITT = "Pitt"
 
 
-class Studied_Teams (Enum):
+class StudiedTeams (Enum):
     TUFF = "TUFF"
     UMASS = "UMASS"
+
 
 
 

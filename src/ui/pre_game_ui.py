@@ -1,6 +1,6 @@
-from shared_ui import create_right_frame, create_button, create_searchable_listbox, make_radio_button
+from .shared_ui import create_right_frame, create_button, create_searchable_listbox, make_radio_button
 from Enums.wind import WindSpeed
-from Enums.game import Bracket_Teams, Tournament, Studied_Teams
+from Enums.game import BracketTeams, Tournament, StudiedTeams
 
 
 # method to create the start page with the load button and new game button
@@ -21,7 +21,7 @@ def load_game_page():
     right_frame = create_right_frame()
 
     # games that have been saved
-    games = [games.name for games in Bracket_Teams]
+    games = [games.name for games in BracketTeams]
     # make a search box of all the games that have been saved
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(right_frame, "Game", games, 0, 0)
 
@@ -42,12 +42,12 @@ def new_game_page():
     entry_var_tournament, selected_tournament_var = create_searchable_listbox(right_frame, "Tournament", tournaments, 0, 0)
 
     # entry list for team we are scouting
-    studied_teams = [teams.name for teams in Studied_Teams]
+    studied_teams = [teams.name for teams in StudiedTeams]
     # make a search box for the team we are scouting
     entry_var_scouted, selected_scouted_var = create_searchable_listbox(right_frame, "Scouted Team", studied_teams, 1, 0)
 
     # entry list for team scouted team is playing
-    opponents = [teams.name for teams in Bracket_Teams]
+    opponents = [teams.name for teams in BracketTeams]
     # make a search box for the team scouted team is playing
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(right_frame, "Opponent", opponents, 2, 0)
 
