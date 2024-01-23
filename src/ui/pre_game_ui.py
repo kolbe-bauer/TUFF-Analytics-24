@@ -7,18 +7,20 @@ from Enums.game import Bracket_Teams, Tournament, Studied_Teams
 def load_new_game_page():
     # create frame for the buttons
     right_frame = create_right_frame()
+
     # create button to load game
-    button_load_game = create_button(right_frame, "Load Game", load_game_page, 0, 0)
+    create_button(right_frame, "Load Game", load_game_page, 0, 0)
 
     # create button to start new game
-    button_new_game = create_button(right_frame, "New Game", new_game_page, 1, 0)
+    create_button(right_frame, "New Game", new_game_page, 1, 0)
 
 
 # method to create the load game page
 def load_game_page():
     # create load page
     right_frame = create_right_frame()
-    # NEED TO MAKE THIS HAVE THE GAMES THAT HAVE BEEN SAVED
+
+    # games that have been saved
     games = [games.name for games in Bracket_Teams]
     # make a search box of all the games that have been saved
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(right_frame, "Game", games, 0, 0)
@@ -27,6 +29,7 @@ def load_game_page():
     create_button(right_frame, "Back", load_new_game_page, 1, 0)
 
     return selected_opponent_var
+
 
 # method to create the new game page
 def new_game_page():
@@ -51,7 +54,7 @@ def new_game_page():
     # radio button for wind level
     wind_level_options = [wind.name for wind in WindSpeed]
     # make a radio button for the wind level
-    wind_speed_var = make_radio_button(right_frame, "Wind Speed", wind_level_options, 3, 0)
+    wind_speed_var = make_radio_button(right_frame, wind_level_options, "Wind Speed", 3, 0, 1, 1)
 
     # create back button to go back to the start page
     create_button(right_frame, "Back", load_new_game_page, 4, 0)
