@@ -1,4 +1,4 @@
-from tkinter import Frame, Tk
+from tkinter import Tk
 
 from src.file_manager import pick_game
 
@@ -9,8 +9,7 @@ root.state('zoomed')
 
 
 def main():
-    frame_canvas = Frame(root)
-    game = pick_game(frame_canvas)
+    game = pick_game(root)
     # point_roster = pick_point_roster(root)
 
 

@@ -1,4 +1,4 @@
-from tkinter import Button, END, Entry, Frame, LabelFrame, Listbox, OptionMenu, Radiobutton, StringVar
+from tkinter import Button, END, Entry, Frame, LabelFrame, Listbox, OptionMenu, Radiobutton, StringVar, Tk
 from typing import List, Callable
 
 
@@ -7,21 +7,21 @@ BUTTON_HEIGHT = 5
 
 
 # Function to clear all frames from the root window
-def clear_frames(frame: Frame):
+def clear_frames(frame: Tk):
     for widget in frame.winfo_children():
         if isinstance(widget, Frame):
             widget.destroy()
 
 
 # create a right frame for the interface
-def create_right_frame(parent: Frame):
+def create_right_frame(parent: Tk) -> Frame:
     right_frame = Frame(parent)
     right_frame.pack(side='right', fill='y', expand=True)
     return right_frame
 
 
 # create a left frame where the canvas will be placed when it is created
-def create_left_frame(parent: Frame):
+def create_left_frame(parent: Tk) -> Frame:
     left_frame = Frame(parent)
     left_frame.pack(side='left', fill='y', expand=True)
     return left_frame

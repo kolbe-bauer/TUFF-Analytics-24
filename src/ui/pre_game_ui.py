@@ -1,4 +1,4 @@
-from tkinter import Frame, StringVar
+from tkinter import StringVar, Tk
 from typing import List
 
 from src.ui.shared_ui import clear_frames, create_right_frame, create_button, create_searchable_listbox, \
@@ -8,24 +8,24 @@ from Enums.game import Opponents, Tournament, StudiedTeams
 
 
 # method to create the start page with the load button and new game button
-def load_new_game_page(parent_frame: Frame):
-    clear_frames(parent_frame)
+def load_new_game_page(parent_window: Tk):
+    clear_frames(parent_window)
     # create frame for the buttons
-    right_frame = create_right_frame(parent_frame)
+    right_frame = create_right_frame(parent_window)
 
     # create button to load game
-    create_button(right_frame, "Load Game", lambda: load_game_page(parent_frame), 0, 0)
+    create_button(right_frame, "Load Game", lambda: load_game_page(parent_window), 0, 0)
 
     # create button to start new game
-    create_button(right_frame, "New Game", lambda: new_game_page(parent_frame), 1, 0)
+    create_button(right_frame, "New Game", lambda: new_game_page(parent_window), 1, 0)
 
 
 # method to create the load game page
-def load_game_page(parent_frame: Frame) -> List[StringVar]:
-    clear_frames(parent_frame)
+def load_game_page(parent_window: Tk) -> List[StringVar]:
+    clear_frames(parent_window)
 
     # create load page
-    right_frame = create_right_frame(parent_frame)
+    right_frame = create_right_frame(parent_window)
 
     # games that have been saved
     # right now includes all games, but will be changed to only include games that have been saved
@@ -34,16 +34,16 @@ def load_game_page(parent_frame: Frame) -> List[StringVar]:
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(right_frame, "Game", games, 0, 0)
 
     # create back button to go back to the start page
-    create_button(right_frame, "Back", lambda: load_new_game_page(parent_frame), 1, 0)
+    create_button(right_frame, "Back", lambda: load_new_game_page(parent_window), 1, 0)
 
     return [selected_opponent_var]
 
 
 # method to create the new game page
-def new_game_page(parent_frame: Frame):
-    clear_frames(parent_frame)
+def new_game_page(parent_window: Tk):
+    clear_frames(parent_window)
     # create new game page
-    right_frame = create_right_frame(parent_frame)
+    right_frame = create_right_frame(parent_window)
 
     # entry list for tournament
     tournaments = [tournaments.name for tournaments in Tournament]
@@ -68,6 +68,6 @@ def new_game_page(parent_frame: Frame):
     wind_speed_var = make_radio_button(right_frame, wind_level_options, "Wind Speed", 3, 0, 1, 1)
 
     # create back button to go back to the start page
-    create_button(right_frame, "Back", lambda: load_new_game_page(parent_frame), 4, 0)
+    create_button(right_frame, "Back", lambda: load_new_game_page(parent_window), 4, 0)
 
     return [selected_tournament_var, selected_scouted_var, selected_opponent_var, wind_speed_var]
