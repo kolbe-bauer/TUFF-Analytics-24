@@ -100,3 +100,14 @@ def make_radio_button(parent, options: list, name: str, row, column, rowspan, co
     return radio_var
 
 
+# create drop down menu
+def create_option_menu(parent, options, default, command):
+    # Create a Tkinter StringVar to hold the current selection
+    option_var = tk.StringVar(parent)
+    option_var.set(default)
+
+    # Create the OptionMenu and associate it with the parent widget
+    option_menu = tk.OptionMenu(parent, option_var, *options, command=lambda selection: command(option_var.get()))
+    option_menu.pack()
+
+    return option_menu, option_var

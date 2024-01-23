@@ -1,4 +1,4 @@
-from ui.pre_game_ui import load_new_game_page
+from src.ui.pre_game_ui import load_new_game_page
 
 
 # method to pick the game type
