@@ -1,14 +1,14 @@
 from enum import Enum
 
 
-class ThrowType (Enum):
+class ThrowType(Enum):
     Backhand = "backhand"
     Flick = "flick"
     Off_Hand = "off hand"
     UpsideDown = "upside down"
 
 
-class ThrowSubtype (Enum):
+class ThrowSubtype(Enum):
     Flat = "flat"
     IO = "inside out"
     OI = "outside in"
@@ -18,26 +18,26 @@ class ThrowSubtype (Enum):
     Blade = "blade"
 
 
-class ThrowForce (Enum):
+class ThrowForce(Enum):
     No_Mark = "no mark"
     Force_side_Throw = "open throw"
     Break_side_Throw = "break throw"
     Flat_Mark = "flat mark"
 
 
-class ThrowOutcome (Enum):
+class ThrowOutcome(Enum):
     Catch = 'catch'
     Drop = 'drop'
     Turnover = 'turnover'
     Goal = 'goal'
 
 
-class ThrowDecision (Enum):
+class ThrowDecision(Enum):
     Good = "good"
     Bad = "bad"
 
 
-class ThrowAspirations (Enum):
+class ThrowAspirations(Enum):
     Reset = "reset"
     Stagnant_Downfield = "stagnant downfield"
     Downfield_Continuation = "downfield continuation"
@@ -46,6 +46,7 @@ class ThrowAspirations (Enum):
     Centering_Pass = "centering pass"
     Dish = "dish"
 
-class ComingOutOfTimeout (Enum):
+
+class ComingOutOfTimeout(Enum):
     Yes = "yes"
     No = "no"

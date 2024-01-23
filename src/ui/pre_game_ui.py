@@ -1,10 +1,14 @@
-from src.ui.shared_ui import clear_frames, create_right_frame, create_button, create_searchable_listbox, make_radio_button
+from tkinter import Frame, StringVar
+from typing import List
+
+from src.ui.shared_ui import clear_frames, create_right_frame, create_button, create_searchable_listbox, \
+    make_radio_button
 from Enums.wind import WindSpeed
 from Enums.game import Opponents, Tournament, StudiedTeams
 
 
 # method to create the start page with the load button and new game button
-def load_new_game_page(parent_frame):
+def load_new_game_page(parent_frame: Frame):
     clear_frames(parent_frame)
     # create frame for the buttons
     right_frame = create_right_frame(parent_frame)
@@ -17,7 +21,7 @@ def load_new_game_page(parent_frame):
 
 
 # method to create the load game page
-def load_game_page(parent_frame):
+def load_game_page(parent_frame: Frame) -> List[StringVar]:
     clear_frames(parent_frame)
 
     # create load page
@@ -32,12 +36,11 @@ def load_game_page(parent_frame):
     # create back button to go back to the start page
     create_button(right_frame, "Back", lambda: load_new_game_page(parent_frame), 1, 0)
 
-
     return [selected_opponent_var]
 
 
 # method to create the new game page
-def new_game_page(parent_frame):
+def new_game_page(parent_frame: Frame):
     clear_frames(parent_frame)
     # create new game page
     right_frame = create_right_frame(parent_frame)
@@ -45,12 +48,14 @@ def new_game_page(parent_frame):
     # entry list for tournament
     tournaments = [tournaments.name for tournaments in Tournament]
     # make a search box of all Tournaments
-    entry_var_tournament, selected_tournament_var = create_searchable_listbox(right_frame, "Tournament", tournaments, 0, 0)
+    entry_var_tournament, selected_tournament_var = create_searchable_listbox(right_frame, "Tournament", tournaments, 0,
+                                                                              0)
 
     # entry list for team we are scouting
     studied_teams = [teams.name for teams in StudiedTeams]
     # make a search box for the team we are scouting
-    entry_var_scouted, selected_scouted_var = create_searchable_listbox(right_frame, "Scouted Team", studied_teams, 1, 0)
+    entry_var_scouted, selected_scouted_var = create_searchable_listbox(right_frame, "Scouted Team", studied_teams, 1,
+                                                                        0)
 
     # entry list for team scouted team is playing
     opponents = [teams.name for teams in Opponents]

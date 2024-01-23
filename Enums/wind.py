@@ -1,13 +1,13 @@
 from enum import Enum
 
 
-class WindSpeed (Enum):
+class WindSpeed(Enum):
     Low = "low"
     Medium = "medium"
     High = "high"
 
 
-class WindDirection (Enum):
+class WindDirection(Enum):
     Upwind = "upwind"
     Downwind = "downwind"
     Right_to_Left = "right to left"
