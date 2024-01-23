@@ -1,9 +1,11 @@
 from enum import Enum
 
+
 class WindSpeed (Enum):
     Low = "low"
     Medium = "medium"
     High = "high"
+
 
 class WindDirection (Enum):
     Upwind = "upwind"

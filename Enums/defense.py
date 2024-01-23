@@ -5,3 +5,4 @@ class BlockType (Enum):
     Run_Through = "run through"
     Layout = "layout"
     Sky = "sky"
+    Team_Defense = "team defense"

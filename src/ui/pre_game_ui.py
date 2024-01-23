@@ -1,4 +1,5 @@
 import tkinter as tk
+from Enums.wind import WindSpeed
 
 
 root = tk.Tk()
@@ -153,7 +154,7 @@ def load_game():
     options = ["option1", "option2", "option3"]
     # make a search box of all the games that have been saved
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(center_frame, "Game", options, 3, 4)
-
+    # SHOULD CALL THE IN GAME UI HERE AND PASS IN THE GAME THAT WAS SELECTED
 
 # method to create the new game page
 def new_game():
@@ -171,7 +172,15 @@ def new_game():
     entry_var_scouted, selected_scouted_var = create_searchable_listbox(center_frame, "Scouted Team", options, 1, 0)
     # make a search box for the team scouted team is playing
     entry_var_opponent, selected_opponent_var = create_searchable_listbox(center_frame, "Opponent", options, 2, 0)
-
+    wind_level_options = WindSpeed.__members__.keys()
+    # make a radio button for the wind level
+    wind_level = tk.StringVar()
+    wind_level.set(wind_level_options[0])
+    wind_level_frame = tk.LabelFrame(center_frame, text="Wind Level", padx=5, pady=5)
+    wind_level_frame.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+    for option in wind_level_options:
+        tk.Radiobutton(wind_level_frame, text=option, variable=wind_level, value=option).pack(anchor='w')
+    # SHOULD CALL THE IN GAME UI HERE AND PASS IN THE GAME THAT WAS SELECTED
 
 # call function to create start page
 create_start_page()
