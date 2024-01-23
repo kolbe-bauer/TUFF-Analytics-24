@@ -17,11 +17,13 @@ class ThrowSubtype (Enum):
     Scoober = "scoober"
     Blade = "blade"
 
+
 class ThrowForce (Enum):
     No_Mark = "no mark"
     Force_side_Throw = "open throw"
     Break_side_Throw = "break throw"
     Flat_Mark = "flat mark"
+
 
 class ThrowOutcome (Enum):
     Catch = 'catch'
@@ -29,9 +31,11 @@ class ThrowOutcome (Enum):
     Turnover = 'turnover'
     Goal = 'goal'
 
+
 class ThrowDecision (Enum):
     Good = "good"
     Bad = "bad"
+
 
 class ThrowAspirations (Enum):
     Reset = "reset"
@@ -41,3 +45,7 @@ class ThrowAspirations (Enum):
     Bail_Out = "bail out"
     Centering_Pass = "centering pass"
     Dish = "dish"
+
+class ComingOutOfTimeout (Enum):
+    Yes = "yes"
+    No = "no"

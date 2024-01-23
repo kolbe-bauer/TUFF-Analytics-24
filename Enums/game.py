@@ -8,22 +8,16 @@ class Tournament (Enum):
     CEN2024 = "Centex 2024"
 
 
-class BracketTeams (Enum):
-    Jojah = "Jojah"
+class Opponents (Enum):
     PITT = "Pitt"
     NC_State = "NC State"
-    Brown = "Brown"
-
-
-class PoolTeams (Enum):
     Tennessee = "Tennessee"
-    NC_State = "NC State"
-    PITT = "Pitt"
+    Jojah = "Jojah"
+    Brown = "Brown"
 
 
 class StudiedTeams (Enum):
     TUFF = "TUFF"
-    UMASS = "UMASS"
 
 
 

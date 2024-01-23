@@ -1,32 +1,28 @@
 import tkinter as tk
 
-root = tk.Tk()
-root.title("Record Game Data")
-root.state('zoomed')
-root.configure(bg='white')
 
 button_width = 30
 button_height = 5
 
 
 # Function to clear all frames from the root window
-def clear_frames():
-    for widget in root.winfo_children():
+def clear_frames(frame):
+    for widget in frame.winfo_children():
         if isinstance(widget, tk.Frame):
             widget.destroy()
 
 
 # create a right frame for the interface
-def create_right_frame():
-    right_frame = tk.Frame(root)
-    right_frame.pack(side='right', fill='y', padx=10, anchor='center')
+def create_right_frame(parent):
+    right_frame = tk.Frame(parent)
+    right_frame.pack(side='right', fill='y', expand=True)
     return right_frame
 
 
 # create a left frame where the canvas will be placed when it is created
-def create_left_frame():
-    left_frame = tk.Frame(root)
-    left_frame.pack(side='left', fill='both', expand=True)
+def create_left_frame(parent):
+    left_frame = tk.Frame(parent)
+    left_frame.pack(side='left', fill='y', expand=True)
     return left_frame
 
 
@@ -88,7 +84,7 @@ def create_searchable_listbox(frame, title, options, row, col):
 # create buttons
 def create_button(frame, text, command, row, col):
     button = tk.Button(frame, text=text, command=command, width=button_width, height=button_height)
-    button.grid(row=row, column=col, padx=5, pady=5, sticky='nsew')
+    button.grid(row=row, column=col, sticky='nsew')
 
 
 # create radio button
@@ -104,4 +100,3 @@ def make_radio_button(parent, options: list, name: str, row, column, rowspan, co
     return radio_var
 
 
-root.mainloop()

@@ -8,6 +8,17 @@ class OffensiveResult (Enum):
     Score = "score"
     Turn = "turn"
 
+class StartingLine (Enum):
+    OLine = "O-Line"
+    DLine = "D-Line"
+
+class PossessionStarter (Enum):
+    Caught_Pull = "caught pull"
+    Picking_Up = "picking up"
+    Fast_Break = "fast break"
+    Callahan = "callahan"
+    From_Brick = "from brick"
+
 class DefensiveResult (Enum):
     Block = Block
     Turn = "turn"
@@ -16,3 +27,7 @@ class DefensiveResult (Enum):
         if self.isinstance(Block):
             return self.validate_block(point_roster)
         return True
+
+class GoingAgainstZone (Enum):
+    Yes = "yes"
+    No = "no"

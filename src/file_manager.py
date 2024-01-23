@@ -2,8 +2,8 @@ from ui.pre_game_ui import load_new_game_page
 
 
 # method to pick the game type
-def pick_game_type():
-    load_new_game_page()
+def pick_game(parent_frame):
+    load_new_game_page(parent_frame)
 
 
 # method to load the game
