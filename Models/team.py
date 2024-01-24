@@ -8,7 +8,7 @@ class Player (BaseModel):
     number: int
 
     def get_player(this) -> str:
-        return '#' + str(this.number) + ' ' + this.first_name + ' ' + this.last_name
+        return this.first_name + ' ' + this.last_name + ' #' + str(this.number)
 
 
 class Team (BaseModel):

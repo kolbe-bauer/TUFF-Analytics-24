@@ -4,12 +4,13 @@ import tkinter as tk
 
 root = tk.Tk()
 root.title("Pre Game UI")
+root.configure(bg='white')
 # make full screen
 root.state('zoomed')
 
 def main():
-    game = pick_game(root)
-    # point_roster = pick_point_roster(root)
+    #game = pick_game(root)
+    point_roster = pick_point_roster(root)
 
 if __name__ == "__main__":
     main()
