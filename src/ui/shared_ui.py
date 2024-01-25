@@ -76,44 +76,43 @@ def create_searchable_listbox(frame, title, options, row, col, rowspan, columnsp
     entry.bind("<Return>", on_enter_pressed)
     listbox.bind("<Double-Button-1>", on_select)
 
-    return entry_var, selected_item_var
+    return entry_var, selected_item_var, entry
 
 
 # create buttons
 def create_button(frame, text, command, row, col, rowspan, columnspan):
-    button = tk.Button(frame, text=text, command=command, width=30, height=5, bg='chocolate3')
+    button = tk.Button(frame, text=text, command=command, width=30, height=5)
     button.grid(row=row, column=col, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
+    return button
 
 
 # create radio button
 # make a bunch of radio buttons for the user to fill out for information
 def make_vert_radio_button(parent, options: list, name: str, row, column, rowspan, columnspan):
-    color = 'chocolate3'
-    frame = tk.LabelFrame(parent, text=name, padx=10, pady=10, bg=color)
+    frame = tk.LabelFrame(parent, text=name, padx=10, pady=10)
     frame.grid(row=row, column=column, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
 
     radio_var = tk.StringVar(value=options[0])
     for i, option in enumerate(options):
-        radio_option = tk.Radiobutton(frame, text=option, variable=radio_var, value=option, bg=color)
+        radio_option = tk.Radiobutton(frame, text=option, variable=radio_var, value=option)
         radio_option.pack(anchor='center', expand=True)
     return radio_var
 
 
 def make_ho_radio_button(parent, options: list, name: str, row, column, rowspan, columnspan):
-    color = 'chocolate3'
-    frame = tk.LabelFrame(parent, text=name, padx=10, pady=10, bg=color)
+    frame = tk.LabelFrame(parent, text=name, padx=10, pady=10)
     frame.grid(row=row, column=column, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
 
     radio_var = tk.StringVar(value=options[0])
     for i, option in enumerate(options):
-        radio_option = tk.Radiobutton(frame, text=option, variable=radio_var, value=option, bg=color)
+        radio_option = tk.Radiobutton(frame, text=option, variable=radio_var, value=option)
         radio_option.grid(row=0, column=i, sticky='nsew')
     return radio_var
 
 
 # create drop down menu
 def create_option_menu(parent, options, default, command, row, col, rowspan, columnspan):
-    color = 'chocolate3'
+
     # Create a Tkinter StringVar to hold the current selection
     option_var = tk.StringVar(parent)
     option_var.set(default)
@@ -121,7 +120,6 @@ def create_option_menu(parent, options, default, command, row, col, rowspan, col
     # Create the OptionMenu and associate it with the parent widget
     option_menu = tk.OptionMenu(parent, option_var, *options, command=lambda selection: command(option_var.get()))
     option_menu.grid(row=row, column=col, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
-
     return option_menu, option_var
 
 
@@ -143,28 +141,32 @@ def create_point_roster_selector(parent, teamfile, point):
             formatted_lines.append(formatted_line)
 
     # create search box
-    person_entry_var, person_selected = create_searchable_listbox(parent, "Team Roster", formatted_lines, 0, 0,
+    person_entry_var, person_selected, entry = create_searchable_listbox(parent, "Team Roster", formatted_lines, 0, 0,
                                                                   1, 1,10)
 
+    entry.widgetName = "person_entry"
+    entry.bind("<Tab>", lambda event: add_entry(person_entry_var, listbox, point))
+
     # Button to add entries
-    add_button = tk.Button(parent, text="Add Entry", command=lambda: add_entry(person_entry_var, listbox, point), bg='chocolate3')
+    add_button = tk.Button(parent, text="Add Entry", command=lambda: add_entry(person_entry_var, listbox, point))
     add_button.grid(row=1, column=0, sticky='ew')
 
     # Listbox to display entries
     listbox = tk.Listbox(parent)
     listbox.grid(row=2, column=0, sticky='nsew')
+    listbox.insert(tk.END, *point.get_point_roster())
 
     # Button to remove selected entry
-    remove_button = tk.Button(parent, text="Remove Selected", command=lambda: remove_selected(listbox, point), bg='chocolate3')
+    remove_button = tk.Button(parent, text="Remove Selected", command=lambda: remove_selected(listbox, point))
     remove_button.grid(row=3, column=0, sticky='ew')
 
 
 def add_entry(entry_var, listbox, point):
     # Get the current entry and add it to the Listbox
     entry = entry_var.get()
-    if entry and entry not in listbox.get(0, tk.END):
+    if entry:
         listbox.insert(tk.END, entry)
-
+        point.set_point_roster(listbox.get(0, tk.END))
     entry_var.set('')  # Clear the entry widget
 
 
@@ -173,5 +175,6 @@ def remove_selected(listbox, point):
     try:
         selected_index = listbox.curselection()[0]
         listbox.delete(selected_index)
+        point.set_point_roster(listbox.get(0, tk.END))
     except IndexError:
         pass  # No item selected

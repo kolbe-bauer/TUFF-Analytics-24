@@ -3,18 +3,16 @@ from Enums.throw import (ThrowForce, ThrowType, ThrowSubtype, ThrowOutcome, Thro
 
 
 class Throwing:
-    def __init__(self, action_beginner, action_ender, force: ThrowForce, throw_subtype: ThrowSubtype,
-                 throw_type: ThrowType, throw_aspirations: ThrowAspirations, timeout: ComingOutOfTimeout,
-                 throw_decision: ThrowDecision, throw_outcome: ThrowOutcome):
-        self.action_beginner = action_beginner
-        self.action_ender = action_ender
-        self.force = force
-        self.throw_subtype = throw_subtype
-        self.throw_type = throw_type
-        self.throw_aspirations = throw_aspirations
-        self.timeout = timeout
-        self.throw_decision = throw_decision
-        self.throw_outcome = throw_outcome
+    def __init__(self):
+        self.action_beginner = ""
+        self.action_ender = ""
+        self.force = ""
+        self.throw_subtype = ""
+        self.throw_type = ""
+        self.throw_aspirations = ""
+        self.timeout = ""
+        self.throw_decision = ""
+        self.throw_outcome = ""
 
     def get_action_beginner(self):
         return self.action_beginner
