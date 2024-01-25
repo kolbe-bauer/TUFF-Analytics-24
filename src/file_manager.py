@@ -1,9 +1,11 @@
+from tkinter import Tk
+
 from src.ui.pre_game_ui import load_new_game_page
 
 
 # method to pick the game type
-def pick_game(parent_frame):
-    load_new_game_page(parent_frame)
+def pick_game(parent_window: Tk):
+    load_new_game_page(parent_window)
 
 
 # method to load the game
