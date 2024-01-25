@@ -15,27 +15,29 @@ def point_roster_page(parent_frame, time, curr_point):
     create_point_roster_selector(right_frame, "C:\\Users\\jtscl\\PycharmProjects\\TUFF-Analytics-24\\Rosters\\tuff.csv", curr_point)
     # select wind direction for point as well as starting line
     wind_direction_options = [wind_direction.name for wind_direction in WindDirection]
-    wind_direction_var = make_vert_radio_button(right_frame, wind_direction_options, "Wind Direction", 2, 1, 2, 1)
+    wind_direction_var = make_vert_radio_button(right_frame, wind_direction_options, "Wind Direction", 2, 2, 2, 1)
 
     # select Starting Line
     # REPLACE WITH THE ACTUAL ENUM
     starting_line_options = ["O-Line", "D-Line"]
-    starting_line_var = make_vert_radio_button(right_frame, starting_line_options, "Starting Line", 0, 1, 2, 1)
+    starting_line_var = make_vert_radio_button(right_frame, starting_line_options, "Starting Line", 0, 2, 2, 1)
 
-
+    # should add this
+    #  or curr_point.get_wind_direction() == "" or curr_point.get_starting_line() == ""
     def check_point_roster():
-        if len(curr_point.get_point_roster()) < 7 or len(curr_point.get_point_roster()) > 8:
+        if (len(curr_point.get_point_roster()) < 7 or len(curr_point.get_point_roster()) > 8):
             donothing = 0
         else:
             choose_point_and_thrower(parent_frame, curr_point)
     # if its the first time we are on this page for this game, we shouldn't have a back button
     # if its not the first time, we should have a back button that goes to the previous page
-    create_button(right_frame, "Next", check_point_roster, 5, 1, 1, 1)
-
+    create_button(right_frame, "Next", check_point_roster, 5, 2, 1, 1)
+    # should only work if this is not the first point of the game
     if time > 1:
-        back_button = create_button(right_frame, "Back", lambda: right_frame.destroy(), 5, 0, 1, 1)
+        back_button = create_button(right_frame, "Back", lambda: right_frame.destroy(), 5, 1, 1, 1)
 
 
+# page where you choose the thrower and the point on the field where they throw from
 def choose_point_and_thrower(parent_frame, point):
     curr_throw = Throw.Throwing()
     clear_frames(parent_frame)
@@ -50,14 +52,20 @@ def choose_point_and_thrower(parent_frame, point):
 
     # create selector for thrower
     thrower_options = point.get_point_roster()
-    create_option_menu(left_frame, [*thrower_options], "Thrower", lambda selection: curr_throw.set_action_beginner(selection), 2, 1, 1, 1)
+    create_option_menu(left_frame, [*thrower_options], "Thrower", lambda selection: curr_throw.set_action_beginner(selection),
+                       2, 1, 1, 1)
 
     # create go back button
     # TIME NEEDS TO BE RELATIVE TO THE POINT NUMBER WE ARE ON
     create_button(right_frame, "Back", lambda: point_roster_page(parent_frame, 2, point), 0, 1, 1, 1)
 
+    def go_to_throw_info_page():
+        if curr_throw.get_action_beginner() != "":
+            print(curr_throw.get_action_beginner())
+
+
     # create next button
-    create_button(right_frame, "Next", lambda: print(curr_throw.get_action_beginner()), 1, 1, 1, 1)
+    create_button(right_frame, "Next", go_to_throw_info_page, 1, 1, 1, 1)
 
 def insert_field(parent_frame, point):
     scalex = 10

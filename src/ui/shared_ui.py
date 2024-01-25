@@ -39,6 +39,9 @@ def create_searchable_listbox(frame, title, options, row, col, rowspan, columnsp
     listbox = tk.Listbox(frame, height=show_number)
     listbox.pack(fill='both', expand=True)
 
+    for item in options:
+        listbox.insert(tk.END, item)
+
     # Additional StringVar to store the selected listbox item
     selected_item_var = tk.StringVar()
 
@@ -59,6 +62,7 @@ def create_searchable_listbox(frame, title, options, row, col, rowspan, columnsp
             listbox.delete(0, tk.END)  # Clear the listbox
             entry.icursor(tk.END)  # Move cursor to the end of the entry text
             entry.focus()  # Set focus back to the entry
+        return 'break'  # Prevent default behavior
 
     def on_select(event):
         if listbox.size() > 0:  # Check if the listbox is not empty
@@ -73,7 +77,7 @@ def create_searchable_listbox(frame, title, options, row, col, rowspan, columnsp
                 entry.focus()  # Set focus back to the entry
 
     entry_var.trace("w", update_listbox)
-    entry.bind("<Return>", on_enter_pressed)
+    entry.bind("<Tab>", on_enter_pressed)
     listbox.bind("<Double-Button-1>", on_select)
 
     return entry_var, selected_item_var, entry
@@ -141,30 +145,44 @@ def create_point_roster_selector(parent, teamfile, point):
             formatted_lines.append(formatted_line)
 
     # create search box
-    person_entry_var, person_selected, entry = create_searchable_listbox(parent, "Team Roster", formatted_lines, 0, 0,
+    person_entry_var, person_selected, entry = create_searchable_listbox(parent, "Team Roster", formatted_lines, 0, 1,
                                                                   1, 1,10)
 
     entry.widgetName = "person_entry"
-    entry.bind("<Tab>", lambda event: add_entry(person_entry_var, listbox, point))
+    entry.bind("<Return>", lambda event: add_entry(person_entry_var, listbox, point, formatted_lines))
 
     # Button to add entries
-    add_button = tk.Button(parent, text="Add Entry", command=lambda: add_entry(person_entry_var, listbox, point))
-    add_button.grid(row=1, column=0, sticky='ew')
+    add_button = tk.Button(parent, text="Add Entry", command=lambda: add_entry(person_entry_var, listbox, point, formatted_lines))
+    add_button.grid(row=1, column=1, sticky='ew')
 
     # Listbox to display entries
-    listbox = tk.Listbox(parent)
-    listbox.grid(row=2, column=0, sticky='nsew')
+    listbox = tk.Listbox(parent, height=8)
+    listbox.grid(row=2, column=1, sticky='nsew')
     listbox.insert(tk.END, *point.get_point_roster())
+    listbox.configure(font=("Courier New", 11))
+
+    listbox.bind("<Delete>", lambda event: remove_selected(listbox, point))
 
     # Button to remove selected entry
     remove_button = tk.Button(parent, text="Remove Selected", command=lambda: remove_selected(listbox, point))
-    remove_button.grid(row=3, column=0, sticky='ew')
+    remove_button.grid(row=3, column=1, sticky='ew')
+
+    label_frame = tk.LabelFrame(parent, bg='white', border=0)
+    label_frame.grid(row=2, column=0, sticky='nsew', rowspan=1, columnspan=1)
+    # add a label to show the number player this is
+    for i in range(1, 9):
+        player = tk.Label(label_frame, text=str(i), bg='white', pady=0)
+        if i == 8:
+            player.configure(text="Injury Subsitution")
+        player.grid(row=i, column=0, sticky='e', pady=0, ipady=0)
 
 
-def add_entry(entry_var, listbox, point):
+
+def add_entry(entry_var, listbox, point, formatted_lines):
     # Get the current entry and add it to the Listbox
     entry = entry_var.get()
-    if entry:
+    if (entry and entry not in listbox.get(0, tk.END) and len(listbox.get(0, tk.END)) < 8 and
+        entry in formatted_lines):
         listbox.insert(tk.END, entry)
         point.set_point_roster(listbox.get(0, tk.END))
     entry_var.set('')  # Clear the entry widget
