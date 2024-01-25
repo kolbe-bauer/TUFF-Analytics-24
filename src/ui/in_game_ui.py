@@ -1,12 +1,14 @@
 from src.ui.shared_ui import create_left_frame, create_point_roster_selector, clear_frames, create_right_frame, create_button, create_searchable_listbox, make_vert_radio_button, create_option_menu
 import tkinter as tk
 from Enums.wind import WindDirection
+from Enums.throw import ThrowType, ThrowSubtype, ThrowForce, ThrowAspirations, ThrowDecision, ComingOutOfTimeout
 import src.ui.Point as Point
 import src.csvFileCreators.throwing as Throw
+from src.ui.maintain_field import insert_field, delete_last_point, redraw_field
 
 
-
-def point_roster_page(parent_frame, time, curr_point):
+# page for picking the point roster and the wind direction and the starting line
+def point_roster_page(parent_frame, curr_point, curr_throw):
     clear_frames(parent_frame)
     # create frame for the buttons
     right_frame = create_right_frame(parent_frame)
@@ -25,107 +27,83 @@ def point_roster_page(parent_frame, time, curr_point):
     # should add this
     #  or curr_point.get_wind_direction() == "" or curr_point.get_starting_line() == ""
     def check_point_roster():
-        if (len(curr_point.get_point_roster()) < 7 or len(curr_point.get_point_roster()) > 8):
-            donothing = 0
-        else:
-            choose_point_and_thrower(parent_frame, curr_point)
+        # if (len(curr_point.get_point_roster()) < 7 or len(curr_point.get_point_roster()) > 8):
+        #     donothing = 0
+        # else:
+        choose_point_and_thrower(parent_frame, curr_point, curr_throw)
     # if its the first time we are on this page for this game, we shouldn't have a back button
     # if its not the first time, we should have a back button that goes to the previous page
     create_button(right_frame, "Next", check_point_roster, 5, 2, 1, 1)
+
     # should only work if this is not the first point of the game
-    if time > 1:
-        back_button = create_button(right_frame, "Back", lambda: right_frame.destroy(), 5, 1, 1, 1)
+    back_button = create_button(right_frame, "Back", lambda: right_frame.destroy(), 5, 1, 1, 1)
 
 
 # page where you choose the thrower and the point on the field where they throw from
-def choose_point_and_thrower(parent_frame, point):
-    curr_throw = Throw.Throwing()
+def choose_point_and_thrower(parent_frame, curr_point, curr_throw):
     clear_frames(parent_frame)
     left_frame = create_left_frame(parent_frame)
     right_frame = create_right_frame(parent_frame)
 
     # put field on the left frame
-    canvas, scalex, scaley = insert_field(left_frame, point)
+    canvas, scalex, scaley = insert_field(left_frame, curr_point)
+    redraw_field(canvas, curr_point)
 
     # create delete last point button
-    create_button(left_frame, "Delete Last Point", lambda: delete_last_point(canvas, point, scalex, scaley), 0, 1, 1, 1)
+    create_button(left_frame, "Delete Last Point", lambda: delete_last_point(canvas, curr_point, scalex, scaley), 0, 1, 1, 1)
 
     # create selector for thrower
-    thrower_options = point.get_point_roster()
-    create_option_menu(left_frame, [*thrower_options], "Thrower", lambda selection: curr_throw.set_action_beginner(selection),
-                       2, 1, 1, 1)
+    thrower_options = curr_point.get_point_roster()
+    if curr_throw.get_action_beginner() == "":
+        default = "Thrower"
+    else:
+        default = curr_throw.get_action_beginner()
+    create_option_menu(right_frame, thrower_options, default,
+                       lambda selection: curr_throw.set_action_beginner(selection), 0, 0,
+                       1, 2)
 
     # create go back button
     # TIME NEEDS TO BE RELATIVE TO THE POINT NUMBER WE ARE ON
-    create_button(right_frame, "Back", lambda: point_roster_page(parent_frame, 2, point), 0, 1, 1, 1)
+    create_button(right_frame, "Back", lambda: point_roster_page(parent_frame, curr_point, curr_throw), 2, 0, 1, 1)
 
     def go_to_throw_info_page():
         if curr_throw.get_action_beginner() != "":
-            print(curr_throw.get_action_beginner())
+            throw_info_page(parent_frame, curr_point, curr_throw)
 
 
     # create next button
-    create_button(right_frame, "Next", go_to_throw_info_page, 1, 1, 1, 1)
-
-def insert_field(parent_frame, point):
-    scalex = 10
-    scaley = 6
-    # Create a canvas for drawing
-    canvas = tk.Canvas(parent_frame, width=scalex * 40, height=scaley * 110, bg='forest green')
-    canvas.grid(row=0, column=0, sticky='nsew', rowspan=10, columnspan=1)
-
-    # Draw fixed elements on the canvas
-    draw_fixed_elements(canvas, scalex, scaley)
-
-    # Bind the left mouse click to adding a point
-    canvas.bind("<Button-1>", lambda event, canvas=canvas, scalex=scalex, scaley=scaley: set_point(event, canvas, scalex, scaley, point))
-
-    return canvas, scalex, scaley
-
-# Function to add a point to the dataset
-def set_point(event, canvas, scalex, scaley, point):
-    x, y = event.x, event.y
-    scaled_x = round(x/scalex, 1)
-    scaled_y = round(90-y/scaley, 1)
-    if scaled_x < 0:
-        scaled_x = 0.0
-    elif scaled_x > 40:
-        scaled_x = 40.0
-    if scaled_y < -20:
-        scaled_y = -20.0
-    elif scaled_y > 90:
-        scaled_y = 90.0
-
-    canvas.create_oval(event.x - 3, event.y - 3, event.x + 3, event.y + 3, fill='red')
-    point.add_point_coordinates((scaled_x, scaled_y))
-    point.add_unscaled_point_coordinates((x, y))
+    create_button(right_frame, "Next", go_to_throw_info_page, 2, 1, 1, 1)
 
 
+# page where you describe the throw information
+def throw_info_page(parent_frame, curr_point, curr_throw):
+    clear_frames(parent_frame)
+    right_frame = create_right_frame(parent_frame)
 
-# deletes the last point
-def delete_last_point(canvas, point, scalex, scaley):
-    if point.get_point_coordinates() != []:
-        canvas.delete("all")
-        draw_fixed_elements(canvas, scalex, scaley)
-        point.remove_point_coordinates()
-        point.remove_unscaled_point_coordinates()
-        for dot in point.get_unscaled_point_coordinates():
-            x, y = dot[0], dot[1]
-            canvas.create_oval(x - 3, y - 3, x + 3, y + 3, fill='red')
+    # select throw subtype
+    throw_subtype_options = [throw_subtype.name for throw_subtype in ThrowSubtype]
+    throw_subtype_var = make_vert_radio_button(right_frame, throw_subtype_options, "Throw Subtype", 0, 2, 2, 1)
 
+    # select throw type
+    throw_type_options = [throw_type.name for throw_type in ThrowType]
+    throw_type_var = make_vert_radio_button(right_frame, throw_type_options, "Throw Type", 0, 1, 2, 1)
 
+    # select throw force
+    throw_force_options = [throw_force.name for throw_force in ThrowForce]
+    throw_force_var = make_vert_radio_button(right_frame, throw_force_options, "Throw Force", 0, 3, 2, 1)
 
-def draw_fixed_elements(canvas, scalex, scaley):
-    # Draw the Field
-    canvas.create_line(0, scaley*20, scalex*40, scaley*20)
-    canvas.create_line(0, scaley*90, scalex*40, scaley*90)
-    canvas.create_line(0, scaley * .3, scalex * 40, scaley * .3)
-    canvas.create_line(0, scaley * 110, scalex * 40, scaley * 110)
-    canvas.create_line(scalex * .15, 0, scalex * .15, scaley * 110)
-    canvas.create_line(scalex * 40, 0, scalex * 40, scaley * 110)
-    # Draw Brick/Midfield marks
-    fixed_dots = [(20, 20), (20, 35), (20, 50)]
-    for dot in fixed_dots:
-        x, y = dot
-        canvas.create_oval(scalex*x - 3, scaley*(90-y) - 3, scalex*x + 3, scaley*(90-y) + 3, fill='black')
+    # select throw aspirations
+    throw_aspirations_options = [throw_aspirations.name for throw_aspirations in ThrowAspirations]
+    throw_aspirations_var = make_vert_radio_button(right_frame, throw_aspirations_options, "Throw Aspirations", 0, 4, 2, 1)
+
+    # select throw decision
+    throw_decision_options = [throw_decision.name for throw_decision in ThrowDecision]
+    throw_decision_var = make_vert_radio_button(right_frame, throw_decision_options, "Throw Decision", 0, 5, 2, 1)
+
+    # select coming out of timeout
+    coming_out_of_timeout_options = [coming_out_of_timeout.name for coming_out_of_timeout in ComingOutOfTimeout]
+    coming_out_of_timeout_var = make_vert_radio_button(right_frame, coming_out_of_timeout_options, "Coming Out of Timeout", 0, 6, 2, 1)
+
+    # create back button
+    create_button(right_frame, "Back", lambda: choose_point_and_thrower(parent_frame, curr_point, curr_throw), 2, 1, 1, 1)
 

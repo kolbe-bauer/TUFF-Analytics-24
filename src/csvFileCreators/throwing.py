@@ -1,8 +1,4 @@
-from Enums.throw import (ThrowForce, ThrowType, ThrowSubtype, ThrowOutcome, ThrowDecision, ThrowAspirations,
-                         ComingOutOfTimeout)
-
-
-class Throwing:
+class Throw:
     def __init__(self):
         self.action_beginner = ""
         self.action_ender = ""

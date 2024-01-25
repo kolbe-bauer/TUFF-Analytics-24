@@ -5,7 +5,9 @@ class ThrowType(Enum):
     Backhand = "backhand"
     Flick = "flick"
     Off_Hand = "off hand"
-    UpsideDown = "upside down"
+    Hammer = "hammer"
+    Scoober = "scoober"
+    Blade = "blade"
 
 
 class ThrowSubtype(Enum):
@@ -13,9 +15,7 @@ class ThrowSubtype(Enum):
     IO = "inside out"
     OI = "outside in"
     High_Release = "high release"
-    Hammer = "hammer"
-    Scoober = "scoober"
-    Blade = "blade"
+    UpsideDown = "upside down"
 
 
 class ThrowForce(Enum):

@@ -28,7 +28,7 @@ def create_left_frame(parent):
 def create_searchable_listbox(frame, title, options, row, col, rowspan, columnspan, show_number):
 
     frame = tk.LabelFrame(frame, text=title, padx=5, pady=5)
-    frame.grid(row=row, column=col, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
+    frame.grid(row=row, column=col, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
 
     # Create and place the entry widget
     entry_var = tk.StringVar()
@@ -94,7 +94,7 @@ def create_button(frame, text, command, row, col, rowspan, columnspan):
 # make a bunch of radio buttons for the user to fill out for information
 def make_vert_radio_button(parent, options: list, name: str, row, column, rowspan, columnspan):
     frame = tk.LabelFrame(parent, text=name, padx=10, pady=10)
-    frame.grid(row=row, column=column, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
+    frame.grid(row=row, column=column, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
 
     radio_var = tk.StringVar(value=options[0])
     for i, option in enumerate(options):
@@ -123,7 +123,8 @@ def create_option_menu(parent, options, default, command, row, col, rowspan, col
 
     # Create the OptionMenu and associate it with the parent widget
     option_menu = tk.OptionMenu(parent, option_var, *options, command=lambda selection: command(option_var.get()))
-    option_menu.grid(row=row, column=col, padx=5, pady=5, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
+    option_menu.grid(row=row, column=col, sticky='nsew', rowspan=rowspan, columnspan=columnspan)
+    option_menu.config(font=("Courier New", 11))
     return option_menu, option_var
 
 
